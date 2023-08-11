@@ -1,2 +1,10 @@
 [workspace]
-members = ["thumbor","httpie","queryer","codetest","grid_calculate"]
+members = [
+    "thumbor",
+    "httpie",
+    "queryer",
+    "codetest",
+    "grid_calculate",
+    "kvserver",
+    "simulator"
+]
