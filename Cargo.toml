@@ -1,0 +1,2 @@
+[workspace]
+members = ["thumbor","httpie","queryer","codetest","grid_calculate"]
