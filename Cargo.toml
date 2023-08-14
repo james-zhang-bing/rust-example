@@ -5,6 +5,6 @@ members = [
     "queryer",
     "codetest",
     "grid_calculate",
-    "kvserver",
-    "simulator"
+    "simulator",
+    "kv",
 ]

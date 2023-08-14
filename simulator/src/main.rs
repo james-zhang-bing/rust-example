@@ -3,7 +3,7 @@ use std::{vec, ops::Range};
 use rand::Rng;
 fn main() {
     let s=Simulator::new();
-    s.run(100);
+    s.run(10000);
 }
 
 struct Simulator {
@@ -75,9 +75,9 @@ impl Simulator{
         Self{
             asset_ratio:vec![10.0,8.0,5.0,3.0],
             coin_price:vec![30000.0,2000.0,20.0,10.0],
-            final_percent:1.5,
+            final_percent:0.6,
             init_asset:10000.0,
-            mutation_rate:0.9..1.1,
+            mutation_rate:0.98..1.02,
         }
     }
 }
