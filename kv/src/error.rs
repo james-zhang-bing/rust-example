@@ -1,4 +1,6 @@
+
 use crate::Value;
+use prost::EncodeError;
 use thiserror::Error;
 
 #[derive(Error, Debug, PartialEq)]
@@ -20,4 +22,10 @@ pub enum KvError {
 
     #[error("Internal error: {0}")]
     Internal(String),
+
+    #[error("Failed to access sled db")]
+    SledError(#[from] sled::Error),
+
+    #[error("")]
+    InfallibleError(#[from] std::convert::Infallible)
 }

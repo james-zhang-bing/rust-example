@@ -7,7 +7,6 @@ pub struct MemTable {
     tables: DashMap<String, DashMap<String, Value>>,
 }
 
-
 impl MemTable {
     /// 创建一个缺省的 MemTable
     pub fn new() -> Self {
@@ -25,7 +24,6 @@ impl MemTable {
         }
     }
 }
-
 
 impl Storage for MemTable {
     fn get(&self, table: &str, key: &str) -> Result<Option<Value>, KvError> {
@@ -56,7 +54,35 @@ impl Storage for MemTable {
             .collect())
     }
 
-		fn get_iter(&self, _table: &str) -> Result<Box<dyn Iterator<Item = Kvpair>>, KvError> {
-        todo!()
+    fn get_iter(&self, table: &str) -> Result<Box<dyn Iterator<Item = Kvpair>>, KvError> {
+        // 使用 clone() 来获取 table 的 snapshot
+      let table = self.get_or_create_table(table).clone();
+      let iter = StorageIter::new(table.into_iter()); // 这行改掉了
+      Ok(Box::new(iter))
+  }
+}
+
+/// 提供 Storage iterator，这样 trait 的实现者只需要
+/// 把它们的 iterator 提供给 StorageIter，然后它们保证
+/// next() 传出的类型实现了 Into<Kvpair> 即可
+pub struct StorageIter<T> {
+    data: T,
+}
+
+impl<T> StorageIter<T> {
+    pub fn new(data: T) -> Self {
+        Self { data }
+    }
+}
+
+impl<T> Iterator for StorageIter<T>
+where
+    T: Iterator,
+    T::Item: Into<Kvpair>,
+{
+    type Item = Kvpair;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        self.data.next().map(|v| v.into())
     }
 }
