@@ -7,4 +7,5 @@ members = [
     "grid_calculate",
     "simulator",
     "kv",
+    "bzlib-sys-lib",
 ]
